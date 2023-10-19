@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using RestSharp;
 using ConsoleTableExt;
+using System.Web;
 
 namespace DrinksInfo
 {
@@ -18,12 +19,20 @@ namespace DrinksInfo
 
             Console.Clear();
 
-            ConsoleTableBuilder
-                .From(returnedList)
-                .WithTitle("Categories Menu", ConsoleColor.Red)
-                .WithColumn()
-                .ExportAndWriteLine();
-            Console.WriteLine("\n\n");
+            Output.ShowTable(returnedList, "Categories Menu");
+        }
+
+        internal void GetDrinksByCategory(string category)
+        {
+            var client = new RestClient("https://www.thecocktaildb.com/api/json/v1/1/");
+            var request = new RestRequest($"filter.php?c={HttpUtility.UrlEncode(category)}");
+            var response = client.Get(request);
+
+            var serialize = JsonConvert.DeserializeObject<Drinks>(response.Content);
+
+            List<Drink> returnedList = serialize.DrinksList;
+
+            Output.ShowTable(returnedList, "Drinks Menu");
         }
     }
 }

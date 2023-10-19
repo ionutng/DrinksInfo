@@ -1,4 +1,4 @@
 ﻿using DrinksInfo;
 
-DrinksService drinksService = new();
-drinksService.GetCategories();
+UserInput userInput = new();
+userInput.GetCategoriesInput();
