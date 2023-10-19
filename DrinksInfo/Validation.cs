@@ -13,5 +13,17 @@
 
             return true;
         }
+
+        internal static bool IsIdValid(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                return false;
+
+            foreach (char character in id)
+                if (!char.IsDigit(character))
+                    return false;
+
+            return true;
+        }
     }
 }
